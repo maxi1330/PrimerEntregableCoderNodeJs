@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "nombre": "Producto1",
+    "descripcion": "La descripcion",
+    "codigo": "00001",
+    "imagenUrl": "https://definicion.de/wp-content/uploads/2009/06/producto.png",
+    "precio": "234",
+    "stock": "75",
+    "timestamp": 1662538092472
+  },
+  {
+    "id": 2,
+    "nombre": "Producto2",
+    "descripcion": "La descripcion",
+    "codigo": "00002",
+    "imagenUrl": "https://definicion.de/wp-content/uploads/2009/06/producto.png",
+    "precio": "674",
+    "stock": "123",
+    "timestamp": 1662538115945
+  },
+  {
+    "id": 3,
+    "nombre": "asdas",
+    "descripcion": "Producto ingresado por formulario",
+    "codigo": "12342",
+    "imagenUrl": "www.imagen.com",
+    "precio": "234234",
+    "stock": "34",
+    "timestamp": 1662539613668
+  },
+  {
+    "id": 4,
+    "nombre": "asdas",
+    "descripcion": "Producto ingresado por formulario",
+    "codigo": "12342",
+    "imagenUrl": "www.imagen.com",
+    "precio": "234234",
+    "stock": "34",
+    "timestamp": 1662539628292
+  },
+  {
+    "id": 5,
+    "nombre": "Maximiliano",
+    "descripcion": "Producto ingresado por formulario",
+    "codigo": "123",
+    "imagenUrl": "www.imagen.com",
+    "precio": "345",
+    "stock": "12",
+    "timestamp": 1662540272178
+  },
+  {
+    "id": 6,
+    "nombre": "Maximiliano123",
+    "descripcion": "Producto ingresado por formulario",
+    "codigo": "1565",
+    "imagenUrl": "www.imagen.com",
+    "precio": "3451",
+    "stock": "1244",
+    "timestamp": 1662540289863
+  },
+  {
+    "id": 7,
+    "nombre": "ultimo",
+    "descripcion": "Producto ingresado por formulario",
+    "codigo": "1123",
+    "imagenUrl": "www.imagen.com",
+    "precio": "123123",
+    "stock": "123123",
+    "timestamp": 1662541256956
+  }
+]

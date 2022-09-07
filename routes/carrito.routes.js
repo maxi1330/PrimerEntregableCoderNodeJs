@@ -2,13 +2,13 @@ const express = require('express');
 const routerCarrito = express.Router();
 const Contenedor = require("../db/Contenedor");
 
-const contenedorCarrito = new Contenedor("carrito.txt");
+const contenedorCarrito = new Contenedor("carritos.txt");
 
-//Crea un carrito y devuelve su ID
+//Crea un carrito y devuelve su ID OK
 routerCarrito.post('/', async (req, res) => {
     try {
         const nuevoCarrito = {
-            timestamp: new Date.now(),
+            timestamp: new Date().getTime(),
             productos: []
         }
 
@@ -26,7 +26,7 @@ routerCarrito.post('/', async (req, res) => {
     }
 });
 
-//Vacia un carrito y lo elimina
+//Vacia un carrito y lo elimina OK
 routerCarrito.delete('/:id', async (req, res) => {
     try {
         const {id} = req.params;
@@ -45,12 +45,13 @@ routerCarrito.delete('/:id', async (req, res) => {
     }
 });
 
-//Lista todos los productos guardados en un carrito
+//Lista todos los productos guardados en un carrito OK
 routerCarrito.get('/:id/productos', async (req, res) => {
     try {
         const {id} = req.params;
         await contenedorCarrito.getById(id)
             .then( carrito => {
+                if(!carrito){throw new Error(`Carrito no existente`)}
                 return res.status(200).json(
                     carrito.productos
                 );
@@ -58,12 +59,12 @@ routerCarrito.get('/:id/productos', async (req, res) => {
     } catch (e) {
         return res.status(400).json({
             error: 1,
-            msj: "Ocurrio un error"
+            msj: e.message
         });
     }
 });
 
-//Agrega un producto al carrito
+//Agrega un producto al carrito OK
 routerCarrito.post('/:id/productos', async (req, res) => {
     try {
         //Chequeos
@@ -90,14 +91,16 @@ routerCarrito.post('/:id/productos', async (req, res) => {
             imagenUrl,
             precio,
             stock,
-            timestamp: new Date.now()
+            timestamp: new Date().getTime()
         };
 
         //Modifico
         await contenedorCarrito.getById(id)
             .then(carrito => {
+                if(!carrito){throw new Error(`Carrito no existente`)}
                 let newId = carrito.productos.length === 0 ? 1 : carrito.productos[carrito.productos.length - 1].id + 1;
-                return carrito.productos.push({id: newId, ...nuevoProducto});
+                carrito.productos.push({id: newId, ...nuevoProducto});
+                return carrito;
             })
             .then(async carritoModificado => {
                 await contenedorCarrito.modify(carritoModificado);
@@ -108,12 +111,12 @@ routerCarrito.post('/:id/productos', async (req, res) => {
     } catch (e) {
         return res.status(400).json({
             error: 1,
-            msj: "Ocurrio un error"
+            msj: e.message
         });
     }
 });
 
-//Borra un producto de un carrito
+//Borra un producto de un carrito OK
 routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
     try {
         let {id, id_prod} = req.params;
@@ -126,8 +129,10 @@ routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
 
         await contenedorCarrito.getById(id)
             .then( carrito => {
-                const productosFiltrados = carrito.productos.filter(element => element.id !== id_prod);
-                return carrito.productos = productosFiltrados;
+                if(!carrito){throw new Error(`Carrito no existente`)}
+                const productosFiltrados = carrito.productos.filter(element => element.id != id_prod);
+                carrito.productos = productosFiltrados;
+                return carrito;
             })
             .then( async carritoModificado => {
                 await contenedorCarrito.modify(carritoModificado);
@@ -138,7 +143,7 @@ routerCarrito.delete('/:id/productos/:id_prod', async (req, res) => {
     } catch (e) {
         return res.status(400).json({
             error: 1,
-            msj: "Ocurrio un error"
+            msj: e.message
         });
     }
 });

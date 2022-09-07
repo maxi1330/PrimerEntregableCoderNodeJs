@@ -1,16 +1,23 @@
 const express = require('express');
 const routerProductos = express.Router();
-const Contenedor = require("../db/Contenedor")
+const Contenedor = require("../db/Contenedor");
+let { verificaAdmin } = require ('../middlewares/verificaAdmin');
 
 const contenedorProductos = new Contenedor("productos.txt");
 
-//Lista un producto por ID o todos
-routerProductos.get('/:id', async (req, res) => {
+//Lista un producto por ID o todos  OK
+routerProductos.get('/:id?', async (req, res) => {
     try {
         const {id} = req.params;
         let productos = id !== undefined ?
             await contenedorProductos.getById(id) :
             await contenedorProductos.getAll();
+        if(!productos) {
+            return res.status(400).json({
+                error: 4,
+                msj: "Producto no encontrado"
+            });
+        }
         return res.status(200).json(productos);
     } catch (e) {
         return res.status(400).json({
@@ -20,8 +27,8 @@ routerProductos.get('/:id', async (req, res) => {
     }
 });
 
-//Agrega un producto nuevo *ADMIN
-routerProductos.post('/', async (req, res) => {
+//Agrega un producto nuevo *ADMIN  OK
+routerProductos.post('/', verificaAdmin, async (req, res) => {
     try {
         let {nombre, descripcion, codigo, imagenUrl, precio, stock} = req.body;
         if (!nombre || !descripcion || !codigo || !imagenUrl || !precio || !stock) {
@@ -31,13 +38,14 @@ routerProductos.post('/', async (req, res) => {
             });
         }
 
-        const nuevoProducto = {
-            nombre,
-            descripcion,
-            codigo,
-            imagenUrl,
-            precio,
-            stock
+        let nuevoProducto = {
+            nombre: nombre,
+            descripcion: descripcion,
+            codigo: codigo,
+            imagenUrl: imagenUrl,
+            precio: precio,
+            stock: stock,
+            timestamp: new Date().getTime()
         };
 
         await contenedorProductos.save(nuevoProducto)
@@ -56,8 +64,8 @@ routerProductos.post('/', async (req, res) => {
     }
 });
 
-//Actualiza un producto por ID *ADMIN
-routerProductos.put('/:id', async (req, res) => {
+//Actualiza un producto por ID *ADMIN  OK
+routerProductos.put('/:id', verificaAdmin, async (req, res) => {
     try {
         //Chequeos
         let {id} = req.params;
@@ -92,8 +100,8 @@ routerProductos.put('/:id', async (req, res) => {
     }
 });
 
-//Borra un producto *ADMIN
-routerProductos.delete('/:id', async (req, res) => {
+//Borra un producto *ADMIN  OK
+routerProductos.delete('/:id', verificaAdmin, async (req, res) => {
     try {
         let {id} = req.params;
         if (!id) {
@@ -109,7 +117,7 @@ routerProductos.delete('/:id', async (req, res) => {
     } catch (e) {
         return res.status(400).json({
             error: 1,
-            msj: "Ocurrio un error"
+            msj: e.message
         });
     }
 });
