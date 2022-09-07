@@ -75,11 +75,11 @@ document.getElementById("btn_guardar")
 });
 
 function checkAdmin(checkbox) {
-    if (checkbox.checked){
-        alert("lo apretaron");
-    } else {
-        alert("deschecqued");
-    }
+    // if (checkbox.checked){
+    //     alert("lo apretaron");
+    // } else {
+    //     alert("deschecqued");
+    // }
 }
 
 init();
