@@ -4,7 +4,7 @@ function init(){
         method: "GET",
         headers: {
             "Content-type": "application/json;charset=UTF-8",
-            "Access-Control-Allow-Origin" : true
+            'Access-Control-Allow-Credentials': 'true'
         }
     })
         .then(response => response.json())
@@ -56,7 +56,8 @@ document.getElementById("btn_guardar")
             body: JSON.stringify(nuevoProducto),
             headers: {
                 "Content-type": "application/json;charset=UTF-8",
-                "admin": true
+                "admin": true,
+                'Access-Control-Allow-Credentials': 'true'
             }
         })
             .then(response => response.json())
