@@ -1,5 +1,6 @@
 /* ---------------------- Modulos ----------------------*/
 const express = require('express');
+const cors = require('cors');
 
 //Instancia de Server
 const app = express();
@@ -10,6 +11,7 @@ const routerCarrito = require('./routes/carrito.routes');
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(express.static('public'));
+app.use(cors({ origin: true }));
 
 /* ---------------------- Rutas ----------------------*/
 app.use('/api/productos', routerProductos);
