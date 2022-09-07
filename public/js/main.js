@@ -1,6 +1,6 @@
 
 function init(){
-    fetch('http://localhost:8080/api/productos', {
+    fetch('https://primerentregablegnovatto.glitch.me/api/productos', {
         method: "GET",
         headers: {
             "Content-type": "application/json;charset=UTF-8",
@@ -51,7 +51,7 @@ document.getElementById("btn_guardar")
             precio: document.getElementById("precio").value,
             stock: document.getElementById("stock").value
         };
-        fetch('http://localhost:8080/api/productos', {
+        fetch('https://primerentregablegnovatto.glitch.me/api/productos', {
             method: "POST",
             body: JSON.stringify(nuevoProducto),
             headers: {
